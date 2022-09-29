@@ -1,0 +1,66 @@
+﻿@model List<CoinMarkets>
+
+
+<main class="col-12 col-md-10 my-5 coinScroll mx-auto" style="overflow-x: auto;">
+    <div class="container" 
+        style="min-width: 550px; white-space: nowrap;
+        position: relative;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;">
+        <div class="row">
+            <div style="border:2px solid black" 
+                 class="col-3 py-2">
+              <b>RANK</b>
+            </div>
+            <div style="border:2px solid black"
+                 class="col-2 py-2 d-flex justify-content-between">
+              <b>24H</b>
+            </div>
+            <div style="border:2px solid black"
+                 class="col-3 py-2 text-center">
+              <b>TOTALVOLUME</b>
+            </div>
+            <div style="border:2px solid black"
+                 class="col-4 py-2 text-center">
+              <b>MARKETCAP</b>
+            </div>
+
+            @foreach (var item in Model)
+            {
+            <!--Generated Rows-->
+            <div style="border:2px solid black" class="col-12">
+
+                <a asp-route="coinPage" asp-route-coin="@item.Id"
+                class="row clickable"
+                style="color:white !important; text-decoration:none;">
+
+                    <div class="col-3 py-2 overflow-hidden">
+                        <!--Rank-->
+                        <span>@item.MarketCapRank.</span>
+                        <!--Logo-->
+                        <span><img src="@item.Image" style="width:35px; height:35px;" alt="crypto logo"/></span>
+                        <!--Name-->
+                        <span>@item.Name</span>
+                    </div>
+                    <!--24H change-->
+                    <div class="col-2 py-2 d-flex justify-content-between overflow-hidden">
+                        <span>@Math.Round(@Convert.ToDouble(@item.PriceChangePercentage24H),2)%</span>
+                    </div>
+                    <!--TotalVolume-->
+                    <div class="col-3 py-2 text-center overflow-hidden">
+                        <p >@item.TotalVolume</p>
+                    </div>
+                    <!--MarketCap-->
+                    <div class="col-4 py-2 text-center overflow-hidden">
+                        <p>@item.MarketCap</p>
+                    </div>
+                </a>
+            </div>
+            <!--Generated row END-->
+            }
+
+        </div>
+     </div>
+
+</main>

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <script src="~/js/three.js"></script>
+    <script type="module" src="~/js/animatedBg.js"></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"]</title>
+
+</head>
+<body class="d-flex flex-column min-vh-100"> <!--Kell hogy a footer az oldal -->
+    <partial name="_Notification"/>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <!--Logo-->
+            <a asp-route="HomePage"><img src=~/images/logo.png class="img-fluid mx-5" style="width:100px" alt="Page logo"></a>
+
+            <!--Mobile menu toggler-->
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!--Desktop navbar-->
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                
+                <ul class="navbar-nav ms-auto">
+                    <!--Only seen in development mode-->
+                    <environment include="Development">
+                        <li class="nav-link">
+                            <a class="nav-link">@Context.Session.Id</a>
+                        </li>
+                        <li class="nav-link">
+                            <a class="nav-link">User: @Context.Session.GetString("userName")</a>
+                        </li>
+                        <li class="nav-link">
+                            <a class="nav-link">Is Admin: @Context.Session.GetString("isAdmin")</a>
+                        </li>
+                    </environment>
+
+                    <!--Nav menu items-->
+                    <li class="nav-link">
+                        <a class="nav-link" asp-route="HomePage">Home</a>
+                    </li>
+                    <!--If logged in-->
+                    @if (Context.Session.GetString("userName") != null)
+                    {
+                        <li class="nav-link">
+                            <a class="nav-link" asp-route="AccountPage">@Context.Session.GetString("userName")</a>
+                        </li>
+                        <li class="nav-link">
+                            <a class="nav-link" asp-route="LogOutPage">LogOut</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-link">
+                            <a class="nav-link" asp-route="SignUpPage">SignUp</a>
+                        </li>
+                        <li class="nav-link">
+                            <a class="nav-link" asp-route="SignInPage">SignIn</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div >
+        @RenderBody()
+    </div>
+
+<footer class="mt-auto text-center text-white bg-secondary">
+        <!-- Grid container -->
+        <div class="container">
+            <!-- Section: Text -->
+            <section class="p-3">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <p class="d-flex justify-content-center align-items-center m-0">
+                            <strong><span class="text-danger">Disclaimer!&nbsp;</span></strong>
+                            This site is NOT made for production.
+                        </p>
+                        <p class="m-0">The site is made for a school project to be graded, nothing more.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Section: Text -->
+        </div>
+        <!-- Grid container -->
+        <!-- Copyright -->
+        <div class="text-muted text-center p-3"
+             style="background-color: rgba(0, 0, 0, 0.2)">
+            All data provided by <a class="text-muted" href="https://www.coingecko.com/" target="_blank">CoinGecko</a>.
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <script>
+        function CopyToClipBoard(){
+            navigator.clipboard.writeText(document.getElementById("address").innerHTML);
+        }
+        function exchange1(curr1, coinPrice){
+                document.getElementById("currency2").value = (curr1 * (1 / coinPrice)).toFixed(18);
+        }
+        function exchange2(curr2, coinPrice){
+            document.getElementById("currency1").value = (curr2 * coinPrice).toFixed(2);
+        }
+    </script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://widgets.coingecko.com/coingecko-coin-compare-chart-widget.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<UserInformationModel>
+
+<h1>@Context.Session.GetString("userName")</h1>
+<div class="container accounts">
+    @if (Convert.ToBoolean(Context.Session.GetString("isAdmin")))
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-dark" >
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Password)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsAdmin)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsAdmin)
+                        </td>
+                        <td>
+                            <a asp-route="EditAccount" asp-route-id="@item.ID" style="color: rgba(255, 255, 255, 0.6);">Edit</a> |
+                            <a asp-route="DeleteAccount" asp-route-id="@item.ID" style="color: rgba(255, 255, 255, 0.6);">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>You are not an admin!</p>
+    }
+</div>
+
+

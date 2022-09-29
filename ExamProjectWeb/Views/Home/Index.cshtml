@@ -1,0 +1,205 @@
+﻿@using CoinGecko.Entities.Response.Coins
+@using Microsoft.AspNetCore.Http
+
+@model List<CoinMarkets>
+
+<!--STATIC-->
+<div id="bg" role="banner">
+    <div class="container">
+        <!--Grid row-->
+        <div class="row align-items-center mh-100 min-vh-100">
+            <!--Grid column-->
+            <div class=" col-md-6 text-center text-md-left">
+                <h1 class="h1-responsive font-weight-bold">CRYPTO DAS VERY GOOD </h1>
+                <hr class="hr-light">
+                <h6 class="mb-3">
+                    Register pls 
+                </h6>
+
+                <a class="btn btn-secondary" asp-route="SignUpPage">Sign up</a>
+            </div>
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+    </div>
+</div>
+
+<!--DIVIDER IMAGE-->
+<div class="divider"></div>
+
+
+<!--Dynamic-->
+<!--Top-10 Crypto Cards-->
+<main class="mt-lg-4 container bg-main">
+    <!--Title-->
+    <div class="align-mid text-center pb-5">
+        <h2>Top 10 Cryptocurrency by rank</h2>
+        <p>flavour text</p>
+    </div>
+
+    <!--Cards-->
+    <div class="container">
+        <div class="row ">
+
+            @foreach (var item in Model)
+            {
+                <input type="text" value="@item.Id" class="d-none" />
+                <div class="box-item col-12 col-md-6 col-lg-3 mx-auto mb-3 ">
+                <a asp-route="coinPage" asp-route-coin="@item.Id" class="cardClick">
+                    <div class="flip-box">
+                        <!--Card Front content-->
+                        <div class="card front text-center card-front-bg">
+                            <!--Card Front Image-->
+                            <div class="card-header inner transparent" >
+                                <img class="mx-auto img-fluid w-75 py-4" src="@item.Image" alt="crypto logo">
+                            </div>
+                            <!--Card Front Text-->
+                            <div class="card-body inner mb-3">
+                                <div class="card-body cardBottom">
+                                    <h5 class="card-title ">@item.Name (@item.Symbol.ToUpper())</h5>
+                                    <h6 class="card-subtitle text-muted ">$@GlobalMethods.PriceCheck(item.CurrentPrice)</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!---->
+
+                        <!--Card Back content-->
+                        <div class="card back text-center bg-dark card-back-shadow">
+                            <!--Card Back Top Image-->
+                            <div class="card-header inner transparent ">
+                                <h4 class="card-header transparent ">@item.Name (@item.Symbol.ToUpper())</h4>
+                                <img class="mx-auto img-fluid w-25" src="@item.Image." alt="crypto logo">
+                            </div>
+
+                            <!--Middle Content-->
+                            <div class="inner mt-3">
+                                <ul class="list-group list-group-flush ">
+                                    <!--Price-->
+                                    <li class="list-group-item transparent-bb" >
+                                        <span class="float-start inner">Price:</span>
+                                        <span class="float-end">$@GlobalMethods.PriceCheck(item.CurrentPrice)</span>
+                                    </li>
+                                    <!--24H-->
+                                    <li class="list-group-item transparent-bb" >
+                                        <span class="float-start">24h change:</span>
+                                        <span class="float-end">@Math.Round(@Convert.ToDouble(item.PriceChangePercentage24H),2)%</span>
+                                    </li>
+                                    <!--Market cap-->
+                                    <li class="list-group-item transparent">
+                                        <span class="float-start">Market cap:</span>
+                                        <span class="float-end">$@GlobalMethods.PriceCheck(item.MarketCap)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                             @* <div class="card-body py-1 inner">
+                                <a href="#" class="card-link ">Card link</a>
+                                <a href="#" class="card-link ">Project link</a>
+                                </div>*@
+
+                            <!--Last time Refreshed-->
+                            <div class="card-footer text-muted cardBottom">
+                                <div class="textShadow">
+                                    @item.LastUpdated
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            }
+
+
+        </div>
+
+    </div>
+</main>
+
+<!--Accordion elements, Crypto information-->
+<aside class="temp mt-lg-5 container mb-5">
+    <div class="accordion bg-" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Cryptocurrency
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                <div class="accordion-body">
+                    <p>A form of digital asset that uses cryptography as its main security
+                        measure to control the creation of additional units and verify
+                        transactions on its decentralised network.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Blockchain
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p>A type of decentralised public ledger which contains 
+                        records/transactions and forms the basis for how many
+                        cryptocurrencies work, using cryptography to link together
+                        blocks in a chain so that each block is linked with the
+                        previous one chronologically, preventing any tampering
+                        or revisionist history from occurring since it would be
+                        recognised immediately by other users on the network.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Exchange
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p>Platforms that allow users to buy, sell, or trade cryptocurrencies
+                        for other digital currency or traditional currencies like US 
+                        dollars or euros. Cryptocurrency exchanges are a vital part of
+                        the crypto ecosystem, providing users with access to crypto funds.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Market capitalisation
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample" style="">
+                <div class="accordion-body">
+                    <p>The total value of the circulating supply of a cryptocurrency, 
+                       calculated by multiplying its current price with its total supply.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    Stablecoin
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p>A cryptocurrency designed to minimise price volatility, 
+                        usually by pegging its value or supply against a physical
+                        asset such as fiat currencies like the US dollar or metals
+                        like silver and gold.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

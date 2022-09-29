@@ -1,0 +1,170 @@
+﻿/* FLIP CARD PARALAX ANIMATION*/
+.flip-box {
+    min-width: 250px;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.front,
+.back {
+    transition: transform 1s cubic-bezier(0.4, 0.2, 0.2, 1);
+    backface-visibility: hidden;
+    min-height: 280px;
+    height: auto;
+    color: #fff;
+    border: none;
+}
+
+.back {
+    background: #cedce7;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: none;
+}
+
+.inner {
+    transform: translateY(-1px) translateZ(40px) scale(0.94);
+    perspective: inherit;
+    z-index: 2;
+}
+
+.flip-box .back {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.flip-box .front {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.cardClick {
+    text-decoration: none;
+}
+
+    .cardClick:hover, .cardClick:active, .cardClick:link {
+        text-decoration: none;
+    }
+
+/*HOVER ANIMATION ONLY */
+@media only screen and (min-width: 768px) {
+    .flip-box:hover .front,
+    .flip-box:hover .back {
+        transition: transform 1s cubic-bezier(0.4, 0.2, 0.2, 1);
+    }
+
+    .flip-box:hover .back {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    .flip-box:hover .front {
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+}
+
+/*Minimum card size*/
+.card {
+    min-height: 360px;
+}
+
+.transparent {
+    background-color: rgba(0,0,0,0);
+    border: none;
+}
+
+.transparent-bb {
+    background-color: rgba(0,0,0,0);
+    border-bottom: 2px solid grey;
+}
+
+.card-front-bg {
+    background-image: url(/images/bg2.jpg);
+    box-shadow: 5px 5px 5px #0c0c0c;
+}
+
+.card-back-shadow {
+    box-shadow: 3px 3px 8px #111;
+}
+
+/*card background*/
+#bg {
+    background-image: url(/images/bg3.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*image between harsh color transitions*/
+.divider {
+    height: 200px;
+    background-image: url(/images/divider.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*currency input*/
+#currency1:focus,
+#currency2:focus {
+    outline: none;
+}
+
+/*fix in case one of the image is smaller*/
+.cardBottom {
+    background-color: rgba(0,0,0,0);
+    border: none;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+div .textShadow {
+    text-shadow: 2px 2px #202020;
+}
+
+
+/*---Scroll bar---*/
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #303030;
+    border-radius: 15px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #ffffff3f;
+    border-radius: 15px;
+    transition: background-color 5s ease-in-out;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #ebebeb;
+    }
+
+@media screen and (max-width: 768px) {
+    .accounts {
+        overflow: scroll;
+        white-space: nowrap;
+        overflow-y: auto;
+    }
+}
+/*---Scroll bar---*/

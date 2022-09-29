@@ -1,0 +1,212 @@
+﻿@model CoinFullDataById
+
+<!--First row-->
+<div class="container col-12">
+    <div class="row col-12 mx-auto" style="padding:0;" id="htinfo" onmousemove="onMouseMove(event);" role="main" aria-label="Information about currency">
+
+        <!--3D scene =>Javascript -->
+        <div class="p-0" id="threeContainer" style="position:absolute; z-index:-1; width: auto;"></div>
+        <!--Left-Side-->
+        <div class="col-12 col-md-8 my-auto p-5 " id="animBg">
+            <!--Chosen coin rank-->
+            <h3>Rank #@Model.MarketCapRank</h3>
+            <!--Coin Image/Name-->
+            <div class=" d-flex">
+                <img class="p-2 img-fluid" src=@Model.Image.Small alt="crypto logo small">
+                <h1>@Model.Name (@Model.Symbol.ToUpper())</h1>
+            </div>
+            <!--Coin Current Price with 24H change percentage-->
+            <h3>
+                $@GlobalMethods.PriceCheck(Model.MarketData.CurrentPrice["usd"])
+                @if (Model.MarketData.PriceChangePercentage24HInCurrency["usd"] > 0)
+                {
+                    <span style="color: green;">@Math.Round(Model.MarketData.PriceChangePercentage24HInCurrency["usd"],1)%</span>
+                }
+                else if (Model.MarketData.PriceChangePercentage24HInCurrency["usd"] < 0)
+                {
+                    <span style="color: red;">@Math.Round(Model.MarketData.PriceChangePercentage24HInCurrency["usd"],1)%</span>
+                }
+                else
+                {
+                    <span>@Math.Round(Model.MarketData.PriceChangePercentage24HInCurrency["usd"],1)%</span>
+                }
+            </h3>
+        </div>
+        <!--Endof LeftSide-->
+
+        <!--RightSide-->
+        <div class="col-12 col-md-4 bg-dark p-3" id="rightInfo">
+
+            <h3>Info</h3>
+            <div class="mx-3">
+
+                <div class="d-flex m-1 py-2 flex-wrap border-bottom ">
+                    @*<h4 class="mt-2">Website: &nbsp; </h4>*@
+                    @if (Model.Links.Homepage.Length > 0)
+                    {
+                        <a class="btn btn-secondary m-1" href="@Model.Links.Homepage.First()" target="_blank">Website</a>
+                    }
+                </div>
+
+                <div class="d-flex m-1 py-2 flex-wrap border-bottom ">
+                    @*<h4 class="mt-2">Explorers: &nbsp; </h4>*@
+                    @if (Model.Links.BlockchainSite.Length > 0)
+                    {
+                        <a class="btn btn-secondary m-1" href="@Model.Links.BlockchainSite.First()" target="_blank">Explorer</a>
+                    }
+                </div>
+
+                <div class="d-flex m-1 py-2 flex-wrap border-bottom">
+                    @*<h4 class="mt-2">Wallets: &nbsp;</h4>*@
+                    <a class="btn btn-secondary m-1 " href="https://www.ledger.com/" target="_blank">Ledger</a>
+                    <a class="btn btn-secondary m-1" href="https://trezor.io/" target="_blank">Trezor</a>
+                    <a class="btn btn-secondary m-1" href="https://metamask.io/" target="_blank">Metamask</a>
+                </div>
+
+                <div class="d-flex m-1 py-2 flex-wrap border-bottom ">
+                    @*<h4 class="mt-2">Community: &nbsp;</h4>*@
+                    @if (Model.Links.SubredditUrl != null)
+                    {
+                        <a class="btn btn-secondary m-1" href="@Model.Links.SubredditUrl" target="_blank">Reddit</a>
+                    }
+                    @if (Model.Links.TwitterScreenName.Length > 0)
+                    {
+                        <a class="btn btn-secondary m-1" href="https://twitter.com/@Model.Links.TwitterScreenName" target="_blank">Twitter</a>
+                    }
+                    @if (Model.Links.FacebookUsername.Length > 0)
+                    {
+                        <a class="btn btn-secondary m-1" href="https://www.facebook.com/@Model.Links.FacebookUsername" target="_blank">Facebook</a>
+                    }
+                </div>
+
+                <div class="d-flex m-1 py-2 flex-wrap border-bottom">
+                    @*<h4 class="mt-2">Source Code: &nbsp;</h4>*@
+                    @if (Model.Links.ReposUrl.Github.Length > 0)
+                    {
+                        <a class="btn btn-secondary m-1" href="@Model.Links.ReposUrl.Github.First()" target="_blank">Github</a>
+                    }
+                </div>
+
+                <div class="d-flex m-1 py-2 flex-wrap">
+                    <h4 class="mt-2">API id: &nbsp;</h4>
+                    <a class="btn btn-secondary m-1">@Model.Id</a>
+                </div>
+
+            </div>
+        </div>
+        <!--Endof RightSide-->
+    </div>
+</div>
+<!--Endof first cointainer-->
+
+
+<!--Second row-->
+<!--Convert to USD-->
+<section class="container" aria-label="Exchange crypto to USD">
+    <div class="py-5 d-sm-flex flex-sm-wrap justify-content-center text-center bg-secondary">
+        <div>
+            <label for="currency1" id="currency1_Code" aria-label="Exchange input USD" >USD</label>
+            <input  oninput="exchange1(this.value, @Model.MarketData.CurrentPrice["usd"])" type="number" id="currency1" >
+        </div>
+
+        <svg aria-label="Exchange arrow" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-right mx-4" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z" />
+        </svg>
+
+        <div>
+            <label for="currency2" id="currency2_Code" aria-label="Exchange input @Model.Id">@Model.Symbol.ToUpper()</label>
+            <input oninput="exchange2(this.value, @Model.MarketData.CurrentPrice["usd"])" type="number" id="currency2">
+        </div>
+    </div>
+</section>
+<!--End of Convert to USD-->
+
+
+<!--Third row-->
+<section class="container " aria-label="Graph and currency data">
+    <div class="row col-12 mx-auto">
+
+         <!--Graph, Chart-->
+        <div class="col-12 col-md-8 px-0">
+            <coingecko-coin-compare-chart-widget coin-ids="@Model.Id" currency="usd" locale="en" aria-label="Graph Coin price"></coingecko-coin-compare-chart-widget>
+        </div>
+
+        <!--CoinInfo-->
+        <div class="col-12 col-md-4 my-auto">
+            <!--Title-->
+            <div class="text-center border-bottom">
+                <h5>@Model.Name Price and Market Stats</h5>
+            </div>
+
+            <!--CurrentPrice-->
+            <div class="d-flex justify-content-between border-bottom">
+                <p>@Model.Name Price</p>
+                <p> $@GlobalMethods.PriceCheck(Model.MarketData.CurrentPrice["usd"])</p>
+            </div>
+
+            <!--MarketCap-->
+            <div class="d-flex justify-content-between border-bottom">
+                <p>Market Cap</p> 
+                <p>$@GlobalMethods.PriceCheck(Model.MarketData.MarketCap["usd"])</p>
+            </div>
+
+            <!--Volume-->
+            <div class="d-flex justify-content-between border-bottom">
+                <p>Volume / Market Cap</p> 
+                <p class="CoinDataRight"> @GlobalMethods.PriceCheck((Math.Round((decimal)(Model.MarketData.TotalVolume["usd"]/Model.MarketData.MarketCap["usd"]), 4)))  </p>
+            </div>
+
+            <!--24H Low/High-->
+            <div class="d-flex justify-content-between border-bottom">
+                <p>24h Low / 24h High</p>
+                <p> $@GlobalMethods.PriceCheck(Model.MarketData.Low24H["usd"]) / $@GlobalMethods.PriceCheck(Model.MarketData.High24H["usd"])</p>
+            </div>
+
+            <!--MarketCapRank-->
+            <div class="d-flex justify-content-between border-bottom">
+                <p>Market Cap Rank</p>
+                <p>#@Model.MarketCapRank</p>
+            </div>
+
+            <!--ATH-->
+            <div class="d-flex justify-content-between border-bottom">
+                <p>All-Time High</p>
+                <p> <!--change text color based on result-->
+                    $@GlobalMethods.PriceCheck(Model.MarketData.Ath["usd"])
+                    @if (Model.MarketData.AthChangePercentage["usd"] > 0)
+                    {
+                        <span style="color: green;" class="CoinDataListPercentage">@Math.Round((decimal)Model.MarketData.AthChangePercentage["usd"],2)%</span>
+                    }
+                    else if (Model.MarketData.AthChangePercentage["usd"] < 0)
+                    {
+                        <span style="color: red;" class="CoinDataListPercentage">@Math.Round((decimal)Model.MarketData.AthChangePercentage["usd"],2)%</span>
+                    }
+                    else
+                    {
+                        <span class="CoinDataListPercentage">@Math.Round((decimal)Model.MarketData.AthChangePercentage["usd"],2)%</span>
+                    }
+                </p>
+            </div>
+
+            <!--ATL-->
+            <div class="d-flex justify-content-between">
+                <p>All-Time Low</p> 
+                <p> <!--change text color based on result-->
+                    $@GlobalMethods.PriceCheck(Model.MarketData.Atl["usd"])
+                    @if (Model.MarketData.AtlChangePercentage["usd"] > 0)
+                    {
+                        <span style="color: green;" class="CoinDataListPercentage">@Math.Round((decimal)Model.MarketData.AtlChangePercentage["usd"],2)%</span>
+                    }
+                    else if (Model.MarketData.AtlChangePercentage["usd"] < 0)
+                    {
+                        <span style="color: red;" class="CoinDataListPercentage">@Math.Round((decimal)Model.MarketData.AtlChangePercentage["usd"],2)%</span>
+                    }
+                    else
+                    {
+                        <span class="CoinDataListPercentage">@Math.Round((decimal)Model.MarketData.AtlChangePercentage["usd"],2)%</span>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
